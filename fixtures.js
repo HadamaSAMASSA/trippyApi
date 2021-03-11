@@ -16,7 +16,7 @@ const createRestaurant = async () => {
             city: 'Las vegas',
             country: "USA",
             stars: 3,
-            cuisine: '',
+            cuisine: 'Pizzeria',
             priceCategory: 3,
         })
     } catch(error) {
