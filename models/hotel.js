@@ -11,6 +11,6 @@ const hotelSchema = new mongoose.Schema({
     priceCategory: Number
 });
 
-const hotelModel = mongoose.model("hotel", hotelSchema);
+const hotelModel = mongoose.model("hotels", hotelSchema);
 module.exports = hotelModel;
 
