@@ -54,4 +54,4 @@ app.delete("restaurants/:id", async(req, res) => {
         _id: req.params.id
     }, restaurant)
     res.send(`Restaurant N°${req.params.id} supprimé avec succès`)
-})
+});
