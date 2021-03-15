@@ -73,6 +73,7 @@ app.delete("/hotels/:id", async (req, res) => {
   res.send(`Hotel N°${req.params.id} supprimé avec succès`);
 });
 
+
 app.get("/restaurants", async (req, res) => {
   const restaurant = await restaurantModel.find().lean().exec();
   res.json(restaurant);
@@ -102,19 +103,18 @@ app.post("/restaurants", async (req, res) => {
 });
 
 app.put("/restaurants/:id", async (req, res) => {
-  const restaurant = await restaurantModel
-    .findOne({
-      _id: req.query.id,
-    })
-    .updateOne(
-      {
-        name: req.body.newName,
-      },
-      restaurant
-    ); //<-- XAVIER, pourquoi c pas dans l'objet ?
-  res.send(
-    `Le nom du restaurant N°${req.params.id} a bien été changé en ${req.body.newName}`
-  );
+    const newName = req.query.newName;
+  
+    await restaurantModel
+      .updateOne(
+        {
+          _id: req.params.id,
+        },
+        {
+          name: newName,
+        }
+      );
+    res.send(`Le nom du restaurant ${req.params.id} a bien été changé en ${newName}`);
 });
 
 app.delete("/restaurants/:id", async (req, res) => {
