@@ -21,14 +21,63 @@ mongoose.connect(
   }
 );
 
+const searchHotelId = async () => {
+  const hotel = await hotelModel
+    .findOne({
+      name: "Le Creuset",
+    })
+    .lean()
+    .exec();
+  return hotel._id;
+};
+
+const addRooms = async () => {
+  try {
+    const hotelId = searchHotelId();
+    const roomId = searchRoom();
+    const hotel = await hotelModel.find({
+      _id: hotelId._id,
+    });
+    hotel.rooms.push(roomId);
+    hotelModel
+      .updateOne(
+        {
+          _id: "604f82459ec7782c80f795e2",
+        },
+        hotel
+      )
+      .exec();
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+const searchRoom = async () => {
+  const room = await roomModel
+    .find({
+      _id: "604f82459ec7782c80f795f6",
+    })
+    .populate("rooms")
+    .lean()
+    .exec();
+  console.log(room);
+};
+
+searchRoom();
+addRooms();
+
 app.get("/hotels", async (req, res) => {
   const page = parseInt(req.query.page);
   const limit = parseInt(req.query.limit);
   const result = page * limit;
-  const hotel = await hotelModel.find().populate("rooms").skip(result).limit(limit).lean().exec();
+  const hotel = await hotelModel
+    .find()
+    .populate("rooms")
+    .skip(result)
+    .limit(limit)
+    .lean()
+    .exec();
   res.json(hotel);
-  const room = await roomModel.find().populate("rooms");
-  res.json(room);
 });
 
 app.get("/hotels/:id", async (req, res) => {
@@ -82,7 +131,12 @@ app.get("/restaurants", async (req, res) => {
   const page = parseInt(req.query.page);
   const limit = parseInt(req.query.limit);
   const result = page * limit;
-  const restaurant = await restaurantModel.find().skip(result).limit(limit).lean().exec();
+  const restaurant = await restaurantModel
+    .find()
+    .skip(result)
+    .limit(limit)
+    .lean()
+    .exec();
   res.json(restaurant);
 });
 

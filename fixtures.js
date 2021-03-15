@@ -227,12 +227,12 @@ const createRoom = async () => {
       await roomModel.deleteMany({}).exec();
       roomModel.create(
         {
-            poeple: 2,
+            people: 2,
             price: 69,
             isBathroom: true,
         },
         {
-            poeple: 4,
+            people: 4,
             price: 100,
             isBathroom: true
         }
