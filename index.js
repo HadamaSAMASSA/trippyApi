@@ -1,9 +1,12 @@
 const mongoose = require("mongoose");
 const express = require("express");
+const bodyParser = require("body-parser");
 const hotelModel = require("./models/hotel");
 const restaurantModel = require("./models/restaurant");
 const app = express();
 const port = 8000;
+
+app.use(bodyParser.json());
 
 app.listen(port, () => {
   console.log(`Serveur lancé sur le port ${port}`);
@@ -32,42 +35,38 @@ app.get("/hotels/:id", async (req, res) => {
   res.json(hotelId);
 });
 
-app.post("hotels", async (req, res) => {
+app.post("/hotels", async (req, res) => {
   await hotelModel.create({
     name: req.body.name,
-    address: req.body.address,
-    city: req.body.city,
-    country: req.body.country,
-    stars: req.body.stars,
-    hasSpa: req.body.spa,
-    hasPool: req.body.pool,
-    priceCategory: req.body.price,
+    // address: req.body.address,
+    // city: req.body.city,
+    // country: req.body.country,
+    // stars: req.body.stars,
+    // hasSpa: req.body.spa,
+    // hasPool: req.body.pool,
+    // priceCategory: req.body.price,
   });
-  res.send("Hotel ajouté avec succès");
+  res.send("hotel ajouté");
 });
 
-app.put("hotels/:id", async (req, res) => {
-  const name = req.query.name;
+app.put("/hotels/:id", async (req, res) => {
   const newName = req.query.newName;
 
-  const hotel = await hotelModel
-    .findOne({
-      _id: req.params.id,
-      name: name,
-    })
+  await hotelModel
     .updateOne(
       {
         _id: req.params.id,
-        name: newName,
       },
-      hotel
+      {
+        name: newName,
+      }
     );
   res.send(
-    `Le nom de l'hotel N°${req.params.id} a bien été changé en ${req.body.newName}`
+    `Le nom de l'hotel ${req.params.id} a bien été changé en ${newName}`
   );
 });
 
-app.delete("hotels/:id", async (req, res) => {
+app.delete("/hotels/:id", async (req, res) => {
   await hotelModel.deleteOne({
     _id: req.params.id,
   });
@@ -102,7 +101,7 @@ app.post("/restaurants", async (req, res) => {
   res.send("Restaurant ajouté avec succès");
 });
 
-app.put("restaurants/:id", async (req, res) => {
+app.put("/restaurants/:id", async (req, res) => {
   const restaurant = await restaurantModel
     .findOne({
       _id: req.query.id,
@@ -118,7 +117,7 @@ app.put("restaurants/:id", async (req, res) => {
   );
 });
 
-app.delete("restaurants/:id", async (req, res) => {
+app.delete("/restaurants/:id", async (req, res) => {
   const restaurant = await restaurantModel.deleteOne(
     {
       _id: req.params.id,
