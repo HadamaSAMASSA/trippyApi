@@ -18,6 +18,15 @@ const createRestaurant = async () => {
             stars: 3,
             cuisine: 'Pizzeria',
             priceCategory: 3,
+        },
+        {
+            name: "Damdam",
+            address: "45 rue de la reunion",
+            city: 'Paris',
+            country: "France",
+            stars: 1,
+            cuisine: 'Pizzeria',
+            priceCategory: 2,
         })
     } catch(error) {
         console.log(error)
@@ -31,6 +40,16 @@ const createHotel = async () => {
             name: "Hadam's",
             address: "3 rue du 14 juillet",
             city: "Paris",
+            country: "France",
+            stars: 2,
+            hasSpa: true,
+            hasPool: true,
+            priceCategory: 2,
+        },
+        {
+            name: "Bouff",
+            address: "60 rue du 14 juillet",
+            city: "Juvisy",
             country: "France",
             stars: 2,
             hasSpa: true,

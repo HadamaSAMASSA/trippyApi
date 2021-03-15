@@ -43,7 +43,7 @@ app.post("hotels", async (req, res) => {
     hasPool: req.body.pool,
     priceCategory: req.body.price,
   });
-  res.send("Hotel ajouté avec succés");
+  res.send("Hotel ajouté avec succès");
 });
 
 app.put("hotels/:id", async (req, res) => {
@@ -57,6 +57,7 @@ app.put("hotels/:id", async (req, res) => {
     })
     .updateOne(
       {
+        _id: req.params.id,
         name: newName,
       },
       hotel
@@ -70,7 +71,7 @@ app.delete("hotels/:id", async (req, res) => {
   await hotelModel.deleteOne({
     _id: req.params.id,
   });
-  res.send(`Hotel N°${req.params.id} supprimé avec succés`);
+  res.send(`Hotel N°${req.params.id} supprimé avec succès`);
 });
 
 app.get("/restaurants", async (req, res) => {
