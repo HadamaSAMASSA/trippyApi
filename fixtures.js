@@ -1,6 +1,8 @@
 const mongoose = require("mongoose");
 const hotelModel = require("./models/hotel");
 const restaurantModel = require("./models/restaurant");
+const roomModel = require("./models/room");
+
 
 mongoose.connect(
   "mongodb://localhost:27017/trippy_basics",
@@ -220,5 +222,26 @@ const createHotel = async () => {
   }
 };
 
+const createRoom = async () => {
+    try {
+      await roomModel.deleteMany({}).exec();
+      roomModel.create(
+        {
+            poeple: 2,
+            price: 69,
+            isBathroom: true,
+        },
+        {
+            poeple: 4,
+            price: 100,
+            isBathroom: true
+        }
+        );
+    } catch (error) {
+      console.log(error);
+    }
+};
+
 createRestaurant();
 createHotel();
+createRoom();

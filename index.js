@@ -3,6 +3,7 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const hotelModel = require("./models/hotel");
 const restaurantModel = require("./models/restaurant");
+const roomModel = require("./models/room");
 const app = express();
 const port = 8000;
 
@@ -24,8 +25,10 @@ app.get("/hotels", async (req, res) => {
   const page = parseInt(req.query.page);
   const limit = parseInt(req.query.limit);
   const result = page * limit;
-  const hotel = await hotelModel.find().skip(result).limit(limit).lean().exec();
+  const hotel = await hotelModel.find().populate("rooms").skip(result).limit(limit).lean().exec();
   res.json(hotel);
+  const room = await roomModel.find().populate("rooms");
+  res.json(room);
 });
 
 app.get("/hotels/:id", async (req, res) => {

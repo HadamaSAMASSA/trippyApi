@@ -8,7 +8,8 @@ const hotelSchema = new mongoose.Schema({
     stars: Number,
     hasSpa: Boolean,
     hasPool: Boolean,
-    priceCategory: Number
+    priceCategory: Number,
+    rooms: [{type: mongoose.Types.ObjectId, ref: "rooms"}]
 });
 
 const hotelModel = mongoose.model("hotels", hotelSchema);
