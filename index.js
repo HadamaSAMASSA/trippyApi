@@ -21,7 +21,10 @@ mongoose.connect(
 );
 
 app.get("/hotels", async (req, res) => {
-  const hotel = await hotelModel.find().lean().exec();
+  const page = parseInt(req.query.page);
+  const limit = parseInt(req.query.limit);
+  const result = page * limit;
+  const hotel = await hotelModel.find().skip(result).limit(limit).lean().exec();
   res.json(hotel);
 });
 
@@ -52,15 +55,14 @@ app.post("/hotels", async (req, res) => {
 app.put("/hotels/:id", async (req, res) => {
   const newName = req.query.newName;
 
-  await hotelModel
-    .updateOne(
-      {
-        _id: req.params.id,
-      },
-      {
-        name: newName,
-      }
-    );
+  await hotelModel.updateOne(
+    {
+      _id: req.params.id,
+    },
+    {
+      name: newName,
+    }
+  );
   res.send(
     `Le nom de l'hotel ${req.params.id} a bien été changé en ${newName}`
   );
@@ -73,9 +75,11 @@ app.delete("/hotels/:id", async (req, res) => {
   res.send(`Hotel N°${req.params.id} supprimé avec succès`);
 });
 
-
 app.get("/restaurants", async (req, res) => {
-  const restaurant = await restaurantModel.find().lean().exec();
+  const page = parseInt(req.query.page);
+  const limit = parseInt(req.query.limit);
+  const result = page * limit;
+  const restaurant = await restaurantModel.find().skip(result).limit(limit).lean().exec();
   res.json(restaurant);
 });
 
@@ -103,18 +107,19 @@ app.post("/restaurants", async (req, res) => {
 });
 
 app.put("/restaurants/:id", async (req, res) => {
-    const newName = req.query.newName;
-  
-    await restaurantModel
-      .updateOne(
-        {
-          _id: req.params.id,
-        },
-        {
-          name: newName,
-        }
-      );
-    res.send(`Le nom du restaurant ${req.params.id} a bien été changé en ${newName}`);
+  const newName = req.query.newName;
+
+  await restaurantModel.updateOne(
+    {
+      _id: req.params.id,
+    },
+    {
+      name: newName,
+    }
+  );
+  res.send(
+    `Le nom du restaurant ${req.params.id} a bien été changé en ${newName}`
+  );
 });
 
 app.delete("/restaurants/:id", async (req, res) => {
